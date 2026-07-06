@@ -8,18 +8,18 @@ const router = Router();
 
 router.post(
   "/",
-  // auth("admin"),
+  auth("Role", "add"),
   validateRequest(RoleValidation.createRole),
   RoleController.createRole,
 );
 
-router.get("/", auth("admin", "manager"), RoleController.getAllRoles);
+router.get("/", auth("Role", "view"), RoleController.getAllRoles);
 
-router.get("/:id", auth("admin", "manager"), RoleController.getRoleById);
+router.get("/:id", RoleController.getRoleById);
 
 router.patch(
   "/:id",
-  auth("admin"),
+  auth("Role", "edit"),
   validateRequest(RoleValidation.updateRole),
   RoleController.updateRole,
 );
@@ -27,11 +27,11 @@ router.patch(
 // Module-level permission update — separate endpoint
 router.patch(
   "/:id/module-permission",
-  auth("admin"),
+  auth("Role", "edit"),
   validateRequest(RoleValidation.updateModulePermission),
   RoleController.updateModulePermission,
 );
 
-router.delete("/:id", auth("admin"), RoleController.deleteRole);
+router.delete("/:id", auth("Role", "delete"), RoleController.deleteRole);
 
 export const roleRouter = router;

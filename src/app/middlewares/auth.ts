@@ -33,26 +33,10 @@ const auth = (moduleName: string, action: string, subModuleName = null) => {
     if (!user) throw new AppError(404, "User not found");
     if (!user.isActive) throw new AppError(403, "User is inactive");
 
-    if (!req.user) {
-      throw new AppError(
-        status.FORBIDDEN,
-        "Unauthorized - Authentication required",
-      );
-    }
-
-    if (req.user.role === process.env.ROLE) {
-      console.log(req.user.role, "req.user.role");
-      return next();
-    }
-
-    const school =
-      req?.user?.school || req?.headers["x-tenantid"] || req.body.school;
-
-    if (!school) {
-      throw new AppError(status.BAD_REQUEST, "School identifier missing");
-    }
-
     const userRole = await Role.findById(role);
+
+    console.log("role", role);
+    console.log("userRole", userRole);
 
     if (!userRole) {
       throw new AppError(status.FORBIDDEN, "You are not authorized!");
@@ -94,7 +78,7 @@ const auth = (moduleName: string, action: string, subModuleName = null) => {
         );
       }
     } else {
-      if (!module.permissions[action]) {
+      if (!module.permissions[action] as keyof typeof module.permissions) {
         throw new AppError(
           status.FORBIDDEN,
           `Permission denied: Cannot ${action} in ${moduleName}`,

@@ -6,7 +6,7 @@ const router = Router();
 
 router.get(
   "/",
-  auth("admin", "manager", "employee"),
+  auth("Dashboard", "view"),
   DashboardController.getDashboardStats,
 );
 

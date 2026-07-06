@@ -5,32 +5,29 @@ import validateRequest from "../../middlewares/validateRequest";
 import { ProductController } from "./product.controller";
 import { upload } from "../../utils/upload";
 import { ProductValidation } from "./product.validate";
+import auth from "../../middlewares/auth";
 
 const router = Router();
 
 router.post(
   "/",
-  // auth("admin", "manager"),
+  auth("Product", "add"),
   upload.single("image"),
   validateRequest(ProductValidation.createProduct),
   ProductController.createProduct,
 );
 
-router.get(
-  "/",
-  // auth("admin", "manager", "employee"),
-  ProductController.getAllProducts,
-);
+router.get("/", auth("Product", "view"), ProductController.getAllProducts);
 
 router.get(
   "/:id",
-  // auth("admin", "manager", "employee"),
+
   ProductController.getProductById,
 );
 
 router.patch(
   "/:id",
-  // auth("admin", "manager"),
+  auth("Product", "edit"),
   upload.single("image"),
   validateRequest(ProductValidation.updateProduct),
   ProductController.updateProduct,
@@ -38,7 +35,7 @@ router.patch(
 
 router.delete(
   "/:id",
-  // auth("admin"),
+  auth("Product", "delete"),
   ProductController.deleteProduct,
 );
 
