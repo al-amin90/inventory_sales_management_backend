@@ -2,6 +2,13 @@
 
 A concise backend demonstrating role-based authentication and permission management for an inventory and sales system.
 
+## Email Password
+
+- Admin: admin@erp.com | Password: admin123
+- Employee: employee@gmail.com | Password: 12345678
+- Manager: manager@gmail.com | Password: 12345678
+  **Create a new Role, then Give Permission to web in that role. Register with that role and test it. You also use Pre created Account**
+
 **Features**
 
 - **Role-Based Authentication**: Database-driven roles and permissions enforced via middleware `auth()` on routes (see [src/app/modules/role/role.route.ts](src/app/modules/role/role.route.ts)).
