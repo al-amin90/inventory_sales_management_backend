@@ -7,7 +7,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  role: TUserRole;
+  role: Types.ObjectId;
   isActive: boolean;
   createdAt?: Date;
   updatedAt?: Date;

@@ -1,59 +1,3 @@
-// import { NextFunction, Request, Response } from 'express'
-// import catchAsync from '../utils/catchAsync'
-// import AppError from '../errors/AppError'
-// import status from 'http-status'
-// import config from '../config'
-// import jwt, { JwtPayload } from 'jsonwebtoken'
-// import { TUserRole } from '../modules/user/user.interface'
-// import { UserModel } from '../modules/user/user.model'
-
-// const auth = (...requiredRoles: TUserRole[]) => {
-//   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-//     const token = req.headers.authorization
-
-//     if (!token) {
-//       throw new AppError(status.FORBIDDEN, 'You are not authorized!')
-//     }
-
-//     const decoded = jwt.verify(token, config.jwt_access_token as string)
-//     const { role, id, iat } = decoded as JwtPayload
-
-//     const user = await UserModel.isUserExistByCustomId(id)
-
-//     if (!user) {
-//       throw new AppError(status.NOT_FOUND, "The User Does't exists")
-//     }
-
-//     const isDeleted = user.isDeleted
-//     if (isDeleted) {
-//       throw new AppError(status.FORBIDDEN, 'The User is Deleted')
-//     }
-
-//     if (user.status === 'blocked') {
-//       throw new AppError(status.FORBIDDEN, 'The User is Blocked')
-//     }
-
-//     if (
-//       user.passwordChangeAt &&
-//       (await UserModel.isJWTIssuedBeforePassword(
-//         user.passwordChangeAt,
-//         iat as number,
-//       ))
-//     ) {
-//       throw new AppError(status.UNAUTHORIZED, 'You are not authorized. by!')
-//     }
-
-//     if (requiredRoles && !requiredRoles.includes(role)) {
-//       throw new AppError(status.UNAUTHORIZED, 'You are not authorized. hi!')
-//     }
-
-//     req.user = decoded as JwtPayload
-//     next()
-//   })
-// }
-
-// export default auth
-
 import type { NextFunction, Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import config from "../config";
@@ -61,10 +5,10 @@ import AppError from "../errors/AppError";
 import catchAsync from "../utils/catchAsync";
 import { User } from "../modules/user/user.model";
 import { verifyToken } from "../modules/auth/auth.utils";
+import status from "http-status";
+import { Role } from "../modules/role/role.model";
 
-type TUserRole = "admin" | "manager" | "employee";
-
-const auth = (...requiredRoles: TUserRole[]) => {
+const auth = (moduleName: string, action: string, subModuleName = null) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.accessToken
       ? req.cookies.accessToken
@@ -89,11 +33,76 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (!user) throw new AppError(404, "User not found");
     if (!user.isActive) throw new AppError(403, "User is inactive");
 
-    if (requiredRoles.length && !requiredRoles.includes(role)) {
-      throw new AppError(403, "Forbidden");
+    if (!req.user) {
+      throw new AppError(
+        status.FORBIDDEN,
+        "Unauthorized - Authentication required",
+      );
     }
 
-    req.user = { userId, role };
+    if (req.user.role === process.env.ROLE) {
+      console.log(req.user.role, "req.user.role");
+      return next();
+    }
+
+    const school =
+      req?.user?.school || req?.headers["x-tenantid"] || req.body.school;
+
+    if (!school) {
+      throw new AppError(status.BAD_REQUEST, "School identifier missing");
+    }
+
+    const userRole = await Role.findById(role);
+
+    if (!userRole) {
+      throw new AppError(status.FORBIDDEN, "You are not authorized!");
+    }
+
+    if (userRole.isDeletedRole) {
+      throw new AppError(status.FORBIDDEN, "This role has been deleted!");
+    }
+
+    const module = userRole?.modules?.find((m) => m.moduleName === moduleName);
+    if (!module) {
+      throw new AppError(
+        status.FORBIDDEN,
+        `You are not authorized! ${moduleName}`,
+      );
+    }
+    if (!module?.access) {
+      throw new AppError(
+        status.FORBIDDEN,
+        `Permission denied! ${moduleName || null}`,
+      );
+    }
+
+    if (subModuleName) {
+      const subModule = module?.subModules?.find(
+        (m) => m.name === subModuleName,
+      );
+
+      if (!subModule) {
+        throw new AppError(
+          status.FORBIDDEN,
+          `Permission denied! ${subModule || null}`,
+        );
+      }
+      if (!subModule?.permissions?.[action]) {
+        throw new AppError(
+          status.FORBIDDEN,
+          `Permission denied: Cannot ${action} in ${subModuleName}`,
+        );
+      }
+    } else {
+      if (!module.permissions[action]) {
+        throw new AppError(
+          status.FORBIDDEN,
+          `Permission denied: Cannot ${action} in ${moduleName}`,
+        );
+      }
+    }
+
+    req.user = { userId, role: userRole._id };
     next();
   });
 };

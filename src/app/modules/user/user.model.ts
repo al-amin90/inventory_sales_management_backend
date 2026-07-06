@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import bcrypt from "bcrypt";
 import config from "../../config";
 import type { IUser } from "./user.interface";
@@ -9,9 +9,8 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true, select: false },
     role: {
-      type: String,
-      enum: ["admin", "manager", "employee"],
-      default: "employee",
+      type: Types.ObjectId,
+      ref: "Role",
     },
     isActive: { type: Boolean, default: true },
   },

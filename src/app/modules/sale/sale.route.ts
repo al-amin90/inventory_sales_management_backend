@@ -9,15 +9,11 @@ const router = Router();
 
 router.post(
   "/",
-  auth("admin", "manager", "employee"),
+  auth("Sale", "add"),
   validateRequest(SaleValidation.createSale),
   SaleController.createSale,
 );
 
-router.get(
-  "/",
-  // auth("admin", "manager"),
-  SaleController.getAllSales,
-);
+router.get("/", auth("Sale", "view"), SaleController.getAllSales);
 
 export const saleRouter = router;
