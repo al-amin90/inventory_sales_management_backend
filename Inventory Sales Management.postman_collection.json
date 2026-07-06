@@ -1,0 +1,1442 @@
+{
+	"info": {
+		"_postman_id": "93dab9a9-c083-4fb1-af80-a121eca8f5d2",
+		"name": "Inventory Sales Management",
+		"description": "A comprehensive REST API for managing inventory, products, sales, roles, and authentication. This collection covers user registration and login with role-based access control, product CRUD operations, sales tracking, and dashboard status monitoring.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40260868"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkdlbmVyYWwgS25vd2xlZGdlIiwiaXNBY3RpdmUiOnRydWUsImVtYWlsIjoiaWplc3VuMjQzMEBnbWFpbC5jb20iLCJpYXQiOjE3NzkyOTg1OTcsImV4cCI6MTc3OTM4NDk5N30.yRwS82FVPguC0qav2VUvjtIh7_-bn8yoUKL6yNNb6AE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ijesun0@gmail.com\",\r\n  \"password\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "User Can Register With Dynamic Role"
+					},
+					"response": [
+						{
+							"name": "Login Copy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkdlbmVyYWwgS25vd2xlZGdlIiwiaXNBY3RpdmUiOnRydWUsImVtYWlsIjoiaWplc3VuMjQzMEBnbWFpbC5jb20iLCJpYXQiOjE3NzkyOTg1OTcsImV4cCI6MTc3OTM4NDk5N30.yRwS82FVPguC0qav2VUvjtIh7_-bn8yoUKL6yNNb6AE",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Admin\",\r\n  \"email\": \"4@erp.com\",\r\n  \"password\": \"admin123\",\r\n  \"role\": \"6a4b582bc56b1b7a4bff859a\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 06 Jul 2026 16:56:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "182"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"10b-8IySVXMTvv5EVOnWYuJUuh2vl0c\""
+								},
+								{
+									"key": "rndr-id",
+									"value": "0c8f6c91-d3b9-4792"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "vary",
+									"value": "Origin"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "a17024213f31931c-DAC"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User Created Successfully\",\n    \"data\": {\n        \"_id\": \"6a4bde2b767485b7368bd91f\",\n        \"name\": \"Admin\",\n        \"email\": \"4@erp.com\",\n        \"role\": \"6a4b582bc56b1b7a4bff859a\",\n        \"isActive\": true,\n        \"createdAt\": \"2026-07-06T16:56:11.206Z\",\n        \"updatedAt\": \"2026-07-06T16:56:11.206Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkdlbmVyYWwgS25vd2xlZGdlIiwiaXNBY3RpdmUiOnRydWUsImVtYWlsIjoiaWplc3VuMjQzMEBnbWFpbC5jb20iLCJpYXQiOjE3NzkyOTg1OTcsImV4cCI6MTc3OTM4NDk5N30.yRwS82FVPguC0qav2VUvjtIh7_-bn8yoUKL6yNNb6AE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ijesun0@gmail.com\",\r\n  \"password\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/auth/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login Send Token in Cookie & Res"
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkdlbmVyYWwgS25vd2xlZGdlIiwiaXNBY3RpdmUiOnRydWUsImVtYWlsIjoiaWplc3VuMjQzMEBnbWFpbC5jb20iLCJpYXQiOjE3NzkyOTg1OTcsImV4cCI6MTc3OTM4NDk5N30.yRwS82FVPguC0qav2VUvjtIh7_-bn8yoUKL6yNNb6AE",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"admin@erp.com\",\r\n  \"password\": \"admin123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 06 Jul 2026 16:55:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "618"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"55f-2K456X30YglJZE4dxqU9BrWSKRg\""
+								},
+								{
+									"key": "rndr-id",
+									"value": "c5efdabc-e8a6-4b3d"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTRiYTc3MTJmMTYwNWRhMjI5YjA2MWQiLCJlbWFpbCI6ImFkbWluQGVycC5jb20iLCJyb2xlIjoiNmE0YmMzYTk1MGYzNjExOWI4N2JlMGJiIiwicm9sZU5hbWUiOiJBZG1pbiIsIm5hbWUiOiJhbCBBbWluIiwiaWF0IjoxNzgzMzU2OTMyLCJleHAiOjE3ODM0NDMzMzJ9.i5CUwEOSI9MSfXc5eMOymiGLztzXbC8vbexhMFFGTdc; Max-Age=86400; Path=/; Expires=Tue, 07 Jul 2026 16:55:32 GMT; HttpOnly; Secure; SameSite=None"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTRiYTc3MTJmMTYwNWRhMjI5YjA2MWQiLCJlbWFpbCI6ImFkbWluQGVycC5jb20iLCJyb2xlIjoiNmE0YmMzYTk1MGYzNjExOWI4N2JlMGJiIiwicm9sZU5hbWUiOiJBZG1pbiIsIm5hbWUiOiJhbCBBbWluIiwiaWF0IjoxNzgzMzU2OTMyLCJleHAiOjE3ODM5NjE3MzJ9.YKWRo_97GPBY35V71dcB_STzNgsq9OpxNKAphs88VP0; Max-Age=604800; Path=/; Expires=Mon, 13 Jul 2026 16:55:32 GMT; HttpOnly; Secure; SameSite=None"
+								},
+								{
+									"key": "vary",
+									"value": "Origin"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "a17023238e09931c-DAC"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTRiYTc3MTJmMTYwNWRhMjI5YjA2MWQiLCJlbWFpbCI6ImFkbWluQGVycC5jb20iLCJyb2xlIjoiNmE0YmMzYTk1MGYzNjExOWI4N2JlMGJiIiwicm9sZU5hbWUiOiJBZG1pbiIsIm5hbWUiOiJhbCBBbWluIiwiaWF0IjoxNzgzMzU2OTMyLCJleHAiOjE3ODM0NDMzMzJ9.i5CUwEOSI9MSfXc5eMOymiGLztzXbC8vbexhMFFGTdc\",\n        \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTRiYTc3MTJmMTYwNWRhMjI5YjA2MWQiLCJlbWFpbCI6ImFkbWluQGVycC5jb20iLCJyb2xlIjoiNmE0YmMzYTk1MGYzNjExOWI4N2JlMGJiIiwicm9sZU5hbWUiOiJBZG1pbiIsIm5hbWUiOiJhbCBBbWluIiwiaWF0IjoxNzgzMzU2OTMyLCJleHAiOjE3ODM5NjE3MzJ9.YKWRo_97GPBY35V71dcB_STzNgsq9OpxNKAphs88VP0\",\n        \"user\": {\n            \"_id\": \"6a4ba7712f1605da229b061d\",\n            \"name\": \"al Amin\",\n            \"email\": \"admin@erp.com\",\n            \"role\": {\n                \"_id\": \"6a4bc3a950f36119b87be0bb\",\n                \"roleName\": \"Admin\",\n                \"modules\": [\n                    {\n                        \"permissions\": {\n                            \"view\": true\n                        },\n                        \"moduleName\": \"Dashboard\",\n                        \"access\": true,\n                        \"subModules\": []\n                    },\n                    {\n                        \"permissions\": {\n                            \"add\": true,\n                            \"edit\": true,\n                            \"delete\": true\n                        },\n                        \"moduleName\": \"Role\",\n                        \"access\": true,\n                        \"subModules\": []\n                    },\n                    {\n                        \"permissions\": {\n                            \"add\": true,\n                            \"edit\": true,\n                            \"delete\": true,\n                            \"view\": true\n                        },\n                        \"moduleName\": \"Product\",\n                        \"access\": true,\n                        \"subModules\": []\n                    },\n                    {\n                        \"permissions\": {\n                            \"add\": true,\n                            \"view\": true\n                        },\n                        \"moduleName\": \"Sale\",\n                        \"access\": true,\n                        \"subModules\": []\n                    }\n                ],\n                \"isDeletedRole\": false,\n                \"createdAt\": \"2026-07-06T15:03:05.372Z\",\n                \"updatedAt\": \"2026-07-06T15:03:05.372Z\",\n                \"__v\": 0\n            },\n            \"roleName\": \"Admin\"\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "User Can Register With Dynamic Role & Login"
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"roleName\": \"Admin\",\r\n  \"modules\": [\r\n    // {\r\n    //   \"moduleName\": \"Dashboard\",\r\n    //   \"access\": true,\r\n    //   \"permissions\": {\r\n    //     \"add\": true,\r\n    //     \"edit\": true,\r\n    //     \"delete\": true,\r\n    //     \"view\": true\r\n    //   },\r\n    //   \"subModules\": []\r\n    // },\r\n    {\r\n      \"moduleName\": \"Role\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"add\": true,\r\n        \"edit\": true,\r\n        \"delete\": true,\r\n        \"view\": true\r\n      },\r\n      \"subModules\": []\r\n    },\r\n    // {\r\n    //   \"moduleName\": \"Product\",\r\n    //   \"access\": true,\r\n    //   \"permissions\": {\r\n    //     \"add\": true,\r\n    //     \"edit\": true,\r\n    //     \"delete\": true,\r\n    //     \"view\": true\r\n    //   },\r\n    //   \"subModules\": []\r\n    // },\r\n    {\r\n      \"moduleName\": \"Sale\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"add\": true,\r\n        \"view\": true\r\n      },\r\n      \"subModules\": []\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/role",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"role"
+							]
+						},
+						"description": "Create Role"
+					},
+					"response": [
+						{
+							"name": "Create Role",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"roleName\": \"Admin 2\",\r\n  \"modules\": [\r\n    {\r\n      \"moduleName\": \"Dashboard\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"view\": true\r\n      },\r\n      \"subModules\": []\r\n    },\r\n    {\r\n      \"moduleName\": \"Role\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"add\": true,\r\n        \"edit\": true,\r\n        \"delete\": true\r\n      },\r\n      \"subModules\": []\r\n    },\r\n    {\r\n      \"moduleName\": \"Product\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"add\": true,\r\n        \"edit\": true,\r\n        \"delete\": true,\r\n        \"view\": true\r\n      },\r\n      \"subModules\": []\r\n    },\r\n    {\r\n      \"moduleName\": \"Sale\",\r\n      \"access\": true,\r\n      \"permissions\": {\r\n        \"add\": true,\r\n        \"view\": true\r\n      },\r\n      \"subModules\": []\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/role",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"role"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 06 Jul 2026 16:56:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "249"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "etag",
+									"value": "W/\"27e-EX4YOh3sPyO/bLLZoTU0lVw1U38\""
+								},
+								{
+									"key": "rndr-id",
+									"value": "355e0b78-facb-495f"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "vary",
+									"value": "Origin"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "a17024f03e82931c-DAC"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Role created successfully\",\n    \"data\": {\n        \"roleName\": \"Admin 2\",\n        \"modules\": [\n            {\n                \"moduleName\": \"Dashboard\",\n                \"access\": true,\n                \"permissions\": {\n                    \"view\": true\n                },\n                \"subModules\": []\n            },\n            {\n                \"moduleName\": \"Role\",\n                \"access\": true,\n                \"permissions\": {\n                    \"add\": true,\n                    \"edit\": true,\n                    \"delete\": true\n                },\n                \"subModules\": []\n            },\n            {\n                \"moduleName\": \"Product\",\n                \"access\": true,\n                \"permissions\": {\n                    \"add\": true,\n                    \"edit\": true,\n                    \"delete\": true,\n                    \"view\": true\n                },\n                \"subModules\": []\n            },\n            {\n                \"moduleName\": \"Sale\",\n                \"access\": true,\n                \"permissions\": {\n                    \"add\": true,\n                    \"view\": true\n                },\n                \"subModules\": []\n            }\n        ],\n        \"isDeletedRole\": false,\n        \"_id\": \"6a4bde4a767485b7368bd920\",\n        \"createdAt\": \"2026-07-06T16:56:42.375Z\",\n        \"updatedAt\": \"2026-07-06T16:56:42.375Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roleName\": \"Admin\",\n  \"modules\": [\n     {\n      \"moduleName\": \"Role\",\n      \"access\": true,\n      \"permissions\": {\n        \"add\": true,\n        \"edit\": true,\n        \"delete\": true,\n        \"view\": false\n      },\n      \"subModules\": []\n    },\n    {\n      \"moduleName\": \"Sale\",\n      \"access\": true,\n      \"permissions\": {\n        \"add\": true,\n        \"view\": true\n      },\n      \"subModules\": []\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/role/6a4b582bc56b1b7a4bff859a",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"role",
+								"6a4b582bc56b1b7a4bff859a"
+							]
+						},
+						"description": "update Role"
+					},
+					"response": [
+						{
+							"name": "Update Blog",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"It's Mr amin\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/doctors/69cfff1b0abf0bcf44143664",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"doctors",
+										"69cfff1b0abf0bcf44143664"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Apr 2026 18:21:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Doctor updated\",\n    \"data\": {\n        \"_id\": \"69cfff1b0abf0bcf44143664\",\n        \"name\": \"It's Mr amin\",\n        \"specialization\": \"Cardiology\",\n        \"hospital\": \"City Hospital\",\n        \"phone\": \"01700000000\",\n        \"email\": \"john234.doe@example.com\",\n        \"isDeleted\": false,\n        \"createdAt\": \"2026-04-03T17:55:39.974Z\",\n        \"updatedAt\": \"2026-04-03T18:21:53.230Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Role Permission",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"roleName\": \"Admin\",\n  \"modules\": [\n     {\n      \"moduleName\": \"Role\",\n      \"access\": true,\n      \"permissions\": {\n        \"add\": true,\n        \"edit\": true,\n        \"delete\": true,\n        \"view\": false\n      },\n      \"subModules\": []\n    },\n    {\n      \"moduleName\": \"Sale\",\n      \"access\": true,\n      \"permissions\": {\n        \"add\": true,\n        \"view\": true\n      },\n      \"subModules\": []\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/role/6a4b582bc56b1b7a4bff859a",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"role",
+								"6a4b582bc56b1b7a4bff859a"
+							]
+						},
+						"description": "Give Role Permission"
+					},
+					"response": [
+						{
+							"name": "Update Blog",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"It's Mr amin\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/doctors/69cfff1b0abf0bcf44143664",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"doctors",
+										"69cfff1b0abf0bcf44143664"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Apr 2026 18:21:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Doctor updated\",\n    \"data\": {\n        \"_id\": \"69cfff1b0abf0bcf44143664\",\n        \"name\": \"It's Mr amin\",\n        \"specialization\": \"Cardiology\",\n        \"hospital\": \"City Hospital\",\n        \"phone\": \"01700000000\",\n        \"email\": \"john234.doe@example.com\",\n        \"isDeleted\": false,\n        \"createdAt\": \"2026-04-03T17:55:39.974Z\",\n        \"updatedAt\": \"2026-04-03T18:21:53.230Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Single Role",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/products/1778670343593",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								"1778670343593"
+							]
+						},
+						"description": "Delete Role"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/role",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"role"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "selects",
+									"value": "name,email",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "specialization",
+									"value": "90",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Role",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/role/6a4b50f99a82ea6ec5d91384",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"role",
+								"6a4b50f99a82ea6ec5d91384"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "selects",
+									"value": "name,email",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "specialization",
+									"value": "90",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Create Your Own Role, Give Permission, Control Web Access"
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Get Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkdlbmVyYWwgS25vd2xlZGdlIiwiaXNBY3RpdmUiOnRydWUsImVtYWlsIjoiaWplc3VuMjQzMEBnbWFpbC5jb20iLCJpYXQiOjE3NzkyOTg1OTcsImV4cCI6MTc3OTM4NDk5N30.yRwS82FVPguC0qav2VUvjtIh7_-bn8yoUKL6yNNb6AE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/dashboard",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Provides a high-level overview of the system's current operational status. Use these endpoints to monitor inventory health, sales activity, and overall system metrics."
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Wireless Bluetooth Headphones",
+									"type": "text"
+								},
+								{
+									"key": "sku",
+									"value": "ELEC-HP-001",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Electronics",
+									"type": "text"
+								},
+								{
+									"key": "purchasePrice",
+									"value": "45.99",
+									"type": "text"
+								},
+								{
+									"key": "sellingPrice",
+									"value": "79.99",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "150",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/al-amin90/Downloads/1.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/product",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Patients",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Mohammad Hasan\",\r\n  \"age\": 35,\r\n  \"gender\": \"male\",\r\n  \"condition\": \"Hypertension\",\r\n  \"phone\": \"+8801912345678\",\r\n  \"email\": \"hasan.mohammad@example.com\",\r\n  \"doctorId\": \"69cfff1b0abf0bcf44143664\",\r\n  \"isDeleted\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/patients",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 04 Apr 2026 14:16:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Patient created\",\n    \"data\": {\n        \"name\": \"Mohammad Hasan\",\n        \"age\": 35,\n        \"gender\": \"male\",\n        \"condition\": \"Hypertension\",\n        \"phone\": \"+8801912345678\",\n        \"email\": \"hasan.mohammad@example.com\",\n        \"doctorId\": \"69cfff1b0abf0bcf44143664\",\n        \"isDeleted\": false,\n        \"_id\": \"69d11d3492cbd387091f12fb\",\n        \"createdAt\": \"2026-04-04T14:16:20.439Z\",\n        \"updatedAt\": \"2026-04-04T14:16:20.439Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Wireless Bluetooth Headphones 2",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/al-amin90/Downloads/2.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/product/6a4b28e75dfdeccadedba25b",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"product",
+								"6a4b28e75dfdeccadedba25b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Blog",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"It's Mr amin\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/doctors/69cfff1b0abf0bcf44143664",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"doctors",
+										"69cfff1b0abf0bcf44143664"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Apr 2026 18:21:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Doctor updated\",\n    \"data\": {\n        \"_id\": \"69cfff1b0abf0bcf44143664\",\n        \"name\": \"It's Mr amin\",\n        \"specialization\": \"Cardiology\",\n        \"hospital\": \"City Hospital\",\n        \"phone\": \"01700000000\",\n        \"email\": \"john234.doe@example.com\",\n        \"isDeleted\": false,\n        \"createdAt\": \"2026-04-03T17:55:39.974Z\",\n        \"updatedAt\": \"2026-04-03T18:21:53.230Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Single Patients",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/products/1778670343593",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"products",
+								"1778670343593"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Single Blog",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseURL}}/api/doctors/69cfff1b0abf0bcf44143664",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"doctors",
+										"69cfff1b0abf0bcf44143664"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 03 Apr 2026 18:23:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Doctor deleted\",\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Single Product",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Wireless Bluetooth Headphones 2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}/product/6a4b28e75dfdeccadedba25b",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"product",
+								"6a4b28e75dfdeccadedba25b"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "selects",
+									"value": "name,email",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "specialization",
+									"value": "90",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get  Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/product",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "selects",
+									"value": "name,email",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "specialization",
+									"value": "90",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "22",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Full CRUD operations for managing products in the inventory. Supports creating new products, retrieving single or all products, updating product details, and deleting products."
+		},
+		{
+			"name": "Sale",
+			"item": [
+				{
+					"name": "Create Sale",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"items\": [\r\n    {\r\n      \"product\": \"6a4b28e75dfdeccadedba25b\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/sale",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"sale"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Patients",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Mohammad Hasan\",\r\n  \"age\": 35,\r\n  \"gender\": \"male\",\r\n  \"condition\": \"Hypertension\",\r\n  \"phone\": \"+8801912345678\",\r\n  \"email\": \"hasan.mohammad@example.com\",\r\n  \"doctorId\": \"69cfff1b0abf0bcf44143664\",\r\n  \"isDeleted\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/patients",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"patients"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "vary",
+									"value": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 04 Apr 2026 14:16:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Patient created\",\n    \"data\": {\n        \"name\": \"Mohammad Hasan\",\n        \"age\": 35,\n        \"gender\": \"male\",\n        \"condition\": \"Hypertension\",\n        \"phone\": \"+8801912345678\",\n        \"email\": \"hasan.mohammad@example.com\",\n        \"doctorId\": \"69cfff1b0abf0bcf44143664\",\n        \"isDeleted\": false,\n        \"_id\": \"69d11d3492cbd387091f12fb\",\n        \"createdAt\": \"2026-04-04T14:16:20.439Z\",\n        \"updatedAt\": \"2026-04-04T14:16:20.439Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Sales",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/sale",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"sale"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "createdAt",
+									"disabled": true
+								},
+								{
+									"key": "selects",
+									"value": "name,email",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "specialization",
+									"value": "90",
+									"disabled": true
+								},
+								{
+									"key": "searchTerm",
+									"value": "john",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for recording and retrieving sales transactions. Create new sales entries linked to products and fetch historical sales data for reporting and analysis."
+		}
+	]
+}
