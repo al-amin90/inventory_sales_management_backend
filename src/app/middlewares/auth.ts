@@ -19,7 +19,6 @@ const auth = (moduleName: string, action: string, subModuleName = null) => {
     if (!token) {
       throw new AppError(403, "You are not Loged in!");
     }
-    console.log(token);
 
     const verifiedToken = verifyToken(
       token,
@@ -34,9 +33,6 @@ const auth = (moduleName: string, action: string, subModuleName = null) => {
     if (!user.isActive) throw new AppError(403, "User is inactive");
 
     const userRole = await Role.findById(role);
-
-    console.log("role", role);
-    console.log("userRole", userRole);
 
     if (!userRole) {
       throw new AppError(status.FORBIDDEN, "You are not authorized!");

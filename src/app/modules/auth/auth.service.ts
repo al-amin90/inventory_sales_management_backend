@@ -4,6 +4,7 @@ import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 import type { ILoginPayload } from "./auth.interface";
 import type { IUser } from "../user/user.interface";
+import type { IRole } from "../role/role.interface";
 import bcrypt from "bcryptjs";
 import { createToken } from "./auth.utils";
 
@@ -14,14 +15,10 @@ const registerUserIntoDB = async (payload: IUser) => {
     throw new AppError(500, "user already exists");
   }
 
-  console.log("password", payload.password);
-
   const hashPassword = await bcrypt.hash(
     payload.password,
     Number(config.bcrypt_salt_rounds),
   );
-
-  console.log("hashPassword", hashPassword);
 
   await User.create({ ...payload, password: hashPassword });
 
@@ -33,15 +30,14 @@ const registerUserIntoDB = async (payload: IUser) => {
 const login = async (payload: ILoginPayload) => {
   const { password, email } = payload;
 
-  const user = await User.findOne({ email: email }).select("+password");
+  const user = await User.findOne({ email: email })
+    .populate("role")
+    .select("+password");
 
   if (!user) throw new AppError(404, "User not found");
   if (!user.isActive) throw new AppError(403, "User is inactive");
 
-  console.log("payload.password", payload.password);
-
   const isPasswordMatch = await bcrypt.compare(password, user.password);
-  console.log("Password match:", isPasswordMatch);
 
   if (!isPasswordMatch) {
     throw new AppError(401, "Invalid credentials");
@@ -50,7 +46,8 @@ const login = async (payload: ILoginPayload) => {
   const jwtPayload = {
     userId: user._id,
     email: user.email,
-    role: user.role,
+    role: user.role._id,
+    roleName: (user.role as any).roleName,
     name: user.name,
   };
 
@@ -74,6 +71,7 @@ const login = async (payload: ILoginPayload) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      roleName: (user.role as any).roleName,
     },
   };
 };

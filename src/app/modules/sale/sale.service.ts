@@ -65,7 +65,7 @@ const createSale = async (
 
 const getAllSales = async () => {
   const result = await Sale.find()
-    .populate("items.product", "name sku sellingPrice")
+    .populate("items.product", "name sku sellingPrice image")
     .populate("soldBy", "name email role")
     .sort("-createdAt");
 
