@@ -1,89 +1,76 @@
-import status from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder";
-import { searchableFields } from "./product.constant";
-import AdminModal from "./product.model";
-import mongoose from "mongoose";
 import AppError from "../../errors/AppError";
-import { UserModel } from "../user/user.model";
-import { TAdmin } from "./product.interface";
+import { deleteFromCloudinary, uploadToCloudinary } from "../../utils/upload";
+import type { IProduct } from "./product.interface";
+import { Product } from "./product.model";
 
-const getAllAdminFromDB = async (query: Record<string, unknown>) => {
-  const AdminQuery = new QueryBuilder(AdminModal.find(), query)
-    .search(searchableFields)
+const SEARCHABLE_FIELDS = ["name", "sku", "category"];
+
+const createProduct = async (payload: IProduct, fileBuffer: Buffer) => {
+  const exists = await Product.findOne({ sku: payload.sku });
+  if (exists) throw new AppError(409, "SKU already exists");
+
+  const image = await uploadToCloudinary(fileBuffer, "products");
+  return await Product.create({ ...payload, image });
+};
+
+const getAllProducts = async (query: Record<string, unknown>) => {
+  const productQuery = new QueryBuilder(Product.find(), query)
+    .search(SEARCHABLE_FIELDS)
     .filter()
     .sort()
     .paginate()
     .fields();
 
-  const result = await AdminQuery.modelQuery;
-  return result;
+  const meta = await productQuery.countTotal();
+  const data = await productQuery.modelQuery;
+
+  return { meta, data };
 };
 
-const getSingleAdminFromDB = async (id: string) => {
-  const result = await AdminModal.findOne({ id: id });
+const getProductById = async (id: string) => {
+  const product = await Product.findById(id);
 
-  return result;
+  if (!product) throw new AppError(404, "Product not found");
+
+  return product;
 };
 
-const updateAdminInDB = async (id: string, payload: Partial<TAdmin>) => {
-  const { name, ...remainingData } = payload;
+const updateProduct = async (
+  id: string,
+  payload: Partial<IProduct>,
+  fileBuffer?: Buffer,
+) => {
+  const product = await Product.findById(id);
+  if (!product) throw new AppError(404, "Product not found");
 
-  const modifiedData: Record<string, unknown> = { ...remainingData };
-
-  if (name && Object.keys(name).length) {
-    for (const [key, value] of Object.entries(name)) {
-      modifiedData[`name.${key}`] = value;
-    }
+  if (fileBuffer) {
+    await deleteFromCloudinary(product.image);
+    payload.image = await uploadToCloudinary(fileBuffer, "products");
   }
 
-  const result = await AdminModal.findOneAndUpdate({ id: id }, modifiedData, {
+  return await Product.findByIdAndUpdate(id, payload, {
     new: true,
+    runValidators: true,
   });
-  return result;
 };
 
-const deleteAdminFromDB = async (id: string) => {
-  const session = await mongoose.startSession();
+const deleteProduct = async (id: string) => {
+  const product = await Product.findById(id);
 
-  try {
-    session.startTransaction();
+  if (!product) throw new AppError(404, "Product not found");
 
-    if (!(await AdminModal.isUserExist2(id))) {
-      throw new AppError(status.NOT_FOUND, "Admin is not found");
-    }
-    const result = await AdminModal.findOneAndUpdate(
-      { id: id },
-      { isDeleted: true },
-      { new: true, session },
-    );
-
-    if (!result) {
-      throw new AppError(status.BAD_GATEWAY, "Failed to delete Admin");
-    }
-
-    const result2 = await UserModel.findOneAndUpdate(
-      { id: id },
-      { isDeleted: true },
-      { new: true, session },
-    );
-    if (!result2) {
-      throw new AppError(status.BAD_GATEWAY, "Failed to delete User");
-    }
-
-    await session.commitTransaction();
-    return result;
-  } catch (err) {
-    console.log("err", err);
-    await session.abortTransaction();
-    throw err;
-  } finally {
-    await session.endSession();
-  }
+  return await Product.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true },
+  );
 };
 
-export const adminServices = {
-  getAllAdminFromDB,
-  getSingleAdminFromDB,
-  deleteAdminFromDB,
-  updateAdminInDB,
+export const ProductService = {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
 };

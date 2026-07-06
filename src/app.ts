@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(cors({ origin: ["localhost:3000"] }));
 
 // all application route here
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 app.get("/", (_req: Request, res: Response) => {
   res.send("Hello Mini ERP");

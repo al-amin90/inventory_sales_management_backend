@@ -1,60 +1,75 @@
-import status from "http-status";
+import { status } from "http-status";
+import AppError from "../../errors/AppError";
 import catchAsync from "../../utils/catchAsync";
+import { ProductService } from "./product.service";
 import sendResponse from "../../utils/SendResponse";
-import { adminServices } from "./product.service";
 
-const getAllAdmin = catchAsync(async (req, res) => {
-  const result = await adminServices.getAllAdminFromDB(req.query);
+const createProduct = catchAsync(async (req, res) => {
+  if (!req.file) throw new AppError(400, "Product image is required");
+
+  const result = await ProductService.createProduct(req.body, req.file.buffer);
 
   sendResponse(res, {
-    statusCode: status.OK,
+    statusCode: status.CREATED,
     success: true,
-    message: "Admin Retrieve data Successfully",
+    message: "Product created successfully",
     data: result,
   });
 });
 
-const getSingleAdmin = catchAsync(async (req, res) => {
-  const result = await adminServices.getSingleAdminFromDB(
+const getAllProducts = catchAsync(async (req, res) => {
+  const result = await ProductService.getAllProducts(req.query);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Products retrieved successfully",
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
+const getProductById = catchAsync(async (req, res) => {
+  const result = await ProductService.getProductById(req.params.id as string);
+
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Product retrieved successfully",
+    data: result,
+  });
+});
+
+const updateProduct = catchAsync(async (req, res) => {
+  const result = await ProductService.updateProduct(
     req.params.id as string,
+    req.body,
+    req.file?.buffer,
   );
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Admin Retrieve single data Successfully",
+    message: "Product updated successfully",
     data: result,
   });
 });
 
-const updateSingleAdmin = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const { admin } = req.body;
-
-  const result = await adminServices.updateAdminInDB(id, admin);
+const deleteProduct = catchAsync(async (req, res) => {
+  await ProductService.deleteProduct(req.params.id as string);
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Admin Update Successfully",
-    data: result,
+    message: "Product deleted successfully",
+    data: null,
   });
 });
 
-const deleteSingleAdmin = catchAsync(async (req, res) => {
-  const { id } = req.params;
-
-  const result = await adminServices.deleteAdminFromDB(id);
-  sendResponse(res, {
-    statusCode: status.OK,
-    success: true,
-    message: "Delete Admin single data Successfully",
-    data: result,
-  });
-});
-export const adminControllers = {
-  getSingleAdmin,
-  getAllAdmin,
-  updateSingleAdmin,
-  deleteSingleAdmin,
+export const ProductController = {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
 };

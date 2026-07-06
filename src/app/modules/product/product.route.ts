@@ -1,19 +1,45 @@
 import { Router } from "express";
-import { adminControllers } from "./product.controller";
-import { updateAdminValidationSchema } from "./product.validate";
+// import auth from "../../middlewares/auth";
 import validateRequest from "../../middlewares/validateRequest";
+
+import { ProductController } from "./product.controller";
+import { upload } from "../../utils/upload";
+import { ProductValidation } from "./product.validate";
 
 const router = Router();
 
-router.get("/", adminControllers.getAllAdmin);
-router.get("/:id", adminControllers.getSingleAdmin);
+router.post(
+  "/",
+  // auth("admin", "manager"),
+  upload.single("image"),
+  validateRequest(ProductValidation.createProduct),
+  ProductController.createProduct,
+);
+
+router.get(
+  "/",
+  // auth("admin", "manager", "employee"),
+  ProductController.getAllProducts,
+);
+
+router.get(
+  "/:id",
+  // auth("admin", "manager", "employee"),
+  ProductController.getProductById,
+);
+
 router.patch(
   "/:id",
-  validateRequest(updateAdminValidationSchema),
-  adminControllers.updateSingleAdmin,
+  // auth("admin", "manager"),
+  upload.single("image"),
+  validateRequest(ProductValidation.updateProduct),
+  ProductController.updateProduct,
 );
-router.delete("/:id", adminControllers.deleteSingleAdmin);
 
-const adminRouter = router;
+router.delete(
+  "/:id",
+  // auth("admin"),
+  ProductController.deleteProduct,
+);
 
-export default adminRouter;
+export const productRouter = router;
