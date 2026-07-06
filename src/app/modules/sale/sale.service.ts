@@ -17,6 +17,7 @@ const createSale = async (
 
     for (const item of payload.items) {
       const product = await Product.findById(item.product).session(session);
+
       if (!product)
         throw new AppError(404, `Product ${item.product} not found`);
       if (product.stock < item.quantity) {
@@ -36,7 +37,6 @@ const createSale = async (
         total,
       });
 
-      // Reduce stock
       await Product.findByIdAndUpdate(
         item.product,
         { $inc: { stock: -item.quantity } },
@@ -64,10 +64,12 @@ const createSale = async (
 };
 
 const getAllSales = async () => {
-  return await Sale.find()
+  const result = await Sale.find()
     .populate("items.product", "name sku sellingPrice")
     .populate("soldBy", "name email role")
     .sort("-createdAt");
+
+  return result;
 };
 
 export const SaleService = { createSale, getAllSales };
