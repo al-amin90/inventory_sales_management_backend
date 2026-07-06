@@ -7,4 +7,14 @@ const loginValidation = z.object({
   }),
 });
 
-export const AuthValidation = { loginValidation };
+const registerUserValidation = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    email: z.string().email({ message: "Invalid email format" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
+  }),
+});
+
+export const AuthValidation = { loginValidation, registerUserValidation };

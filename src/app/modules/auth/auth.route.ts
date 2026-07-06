@@ -6,9 +6,15 @@ import { AuthController } from "./auth.controller";
 const router = Router();
 
 router.post(
+  "/register",
+  validateRequest(AuthValidation.registerUserValidation),
+  AuthController.registerUser,
+);
+
+router.post(
   "/login",
   validateRequest(AuthValidation.loginValidation),
   AuthController.login,
 );
 
-export const AuthRoutes = router;
+export const authRouter = router;

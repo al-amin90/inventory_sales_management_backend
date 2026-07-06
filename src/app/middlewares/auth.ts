@@ -53,3 +53,35 @@
 // }
 
 // export default auth
+
+import type { NextFunction, Request, Response } from "express";
+import jwt, { type JwtPayload } from "jsonwebtoken";
+import config from "../config";
+import AppError from "../errors/AppError";
+import catchAsync from "../utils/catchAsync";
+import { User } from "../modules/user/user.model";
+
+type TUserRole = "admin" | "manager" | "employee";
+
+const auth = (...requiredRoles: TUserRole[]) => {
+  return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) throw new AppError(401, "Unauthorized");
+
+    const decoded = jwt.verify(token, config.jwt_access_token) as JwtPayload;
+    const { userId, role } = decoded;
+
+    const user = await User.findById(userId);
+    if (!user) throw new AppError(404, "User not found");
+    if (!user.isActive) throw new AppError(403, "User is inactive");
+
+    if (requiredRoles.length && !requiredRoles.includes(role)) {
+      throw new AppError(403, "Forbidden");
+    }
+
+    req.user = { userId, role };
+    next();
+  });
+};
+
+export default auth;
