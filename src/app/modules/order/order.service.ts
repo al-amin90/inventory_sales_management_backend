@@ -1,21 +1,21 @@
-import { TAcademicDepartment } from './academicDepartment.interface'
-import { AcademicDepartment } from './academicDepartment.model'
+import { TAcademicDepartment } from "./order.interface";
+import { AcademicDepartment } from "./order.model";
 
 const createAcademicDepartmentIntoDB = async (payload: TAcademicDepartment) => {
-  const result = await AcademicDepartment.create(payload)
-  return result
-}
+  const result = await AcademicDepartment.create(payload);
+  return result;
+};
 
 const getAllAcademicDepartmentFromDB = async () => {
-  const result = await AcademicDepartment.find().populate('academicFaculty')
-  return result
-}
+  const result = await AcademicDepartment.find().populate("academicFaculty");
+  return result;
+};
 
 const getSingleAcademicDepartmentFromDB = async (id: string) => {
   const result =
-    await AcademicDepartment.findById(id).populate('academicFaculty')
-  return result
-}
+    await AcademicDepartment.findById(id).populate("academicFaculty");
+  return result;
+};
 
 const updateAcademicDepartmentInDB = async (
   id: string,
@@ -27,13 +27,13 @@ const updateAcademicDepartmentInDB = async (
     {
       new: true,
     },
-  )
-  return result
-}
+  );
+  return result;
+};
 
 export const academicDepartmentServices = {
   createAcademicDepartmentIntoDB,
   getAllAcademicDepartmentFromDB,
   getSingleAcademicDepartmentFromDB,
   updateAcademicDepartmentInDB,
-}
+};
