@@ -8,12 +8,12 @@ const router = Router();
 
 router.post(
   "/",
-  auth("Role", "add"),
+  // auth("Role", "add"),
   validateRequest(RoleValidation.createRole),
   RoleController.createRole,
 );
 
-router.get("/", auth("Role", "view"), RoleController.getAllRoles);
+router.get("/", RoleController.getAllRoles);
 
 router.get("/:id", RoleController.getRoleById);
 

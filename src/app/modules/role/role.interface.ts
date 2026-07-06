@@ -12,10 +12,10 @@ export interface IModulePermission {
   moduleName: TModuleName;
   access: boolean;
   permissions: {
-    add: boolean;
-    edit: boolean;
-    delete: boolean;
-    view: boolean;
+    add?: boolean;
+    edit?: boolean;
+    delete?: boolean;
+    view?: boolean;
   };
   subModules: ISubModule[];
 }
