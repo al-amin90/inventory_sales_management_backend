@@ -60,18 +60,32 @@ import config from "../config";
 import AppError from "../errors/AppError";
 import catchAsync from "../utils/catchAsync";
 import { User } from "../modules/user/user.model";
+import { verifyToken } from "../modules/auth/auth.utils";
 
 type TUserRole = "admin" | "manager" | "employee";
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) throw new AppError(401, "Unauthorized");
+    const token = req.cookies.accessToken
+      ? req.cookies.accessToken
+      : req.headers.authorization?.startsWith("Bearer")
+        ? req.headers.authorization?.split(" ")[1]
+        : req.headers.authorization;
 
-    const decoded = jwt.verify(token, config.jwt_access_token) as JwtPayload;
-    const { userId, role } = decoded;
+    if (!token) {
+      throw new AppError(403, "You are not Loged in!");
+    }
+    console.log(token);
+
+    const verifiedToken = verifyToken(
+      token,
+      config.jwt_access_token,
+    ) as JwtPayload;
+
+    const { userId, role } = verifiedToken;
 
     const user = await User.findById(userId);
+
     if (!user) throw new AppError(404, "User not found");
     if (!user.isActive) throw new AppError(403, "User is inactive");
 

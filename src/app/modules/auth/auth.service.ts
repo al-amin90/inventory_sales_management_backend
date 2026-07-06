@@ -5,6 +5,7 @@ import { User } from "../user/user.model";
 import type { ILoginPayload } from "./auth.interface";
 import type { IUser } from "../user/user.interface";
 import bcrypt from "bcryptjs";
+import { createToken } from "./auth.utils";
 
 const registerUserIntoDB = async (payload: IUser) => {
   const isExisted = await User.findOne({ email: payload.email });
@@ -46,14 +47,28 @@ const login = async (payload: ILoginPayload) => {
     throw new AppError(401, "Invalid credentials");
   }
 
-  const accessToken = jwt.sign(
-    { userId: user._id, role: user.role },
+  const jwtPayload = {
+    userId: user._id,
+    email: user.email,
+    role: user.role,
+    name: user.name,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
     config.jwt_access_token,
-    { expiresIn: config.jwt_access_expires_in as string },
+    config.jwt_access_expires_in,
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_token,
+    config.jwt_refresh_expires_in,
   );
 
   return {
     accessToken,
+    refreshToken,
     user: {
       _id: user._id,
       name: user.name,

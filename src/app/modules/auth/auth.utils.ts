@@ -1,11 +1,23 @@
-import jwt from 'jsonwebtoken'
+import jwt, { type JwtPayload, type SignOptions } from "jsonwebtoken";
+import AppError from "../../errors/AppError";
 
 export const createToken = (
-  payload: { id: string; role: string },
+  payload: JwtPayload,
   secret: string,
   expiresIn: string,
 ) => {
-  return jwt.sign(payload, secret, {
-    expiresIn,
-  })
-}
+  const token = jwt.sign(payload, secret, {
+    expiresIn: expiresIn,
+  } as SignOptions);
+
+  return token;
+};
+
+export const verifyToken = (token: string, secret: string) => {
+  try {
+    return jwt.verify(token, secret);
+  } catch (error) {
+    console.log("Invalid Token", error);
+    throw new AppError(500, "Invalid Token");
+  }
+};

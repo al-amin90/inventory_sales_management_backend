@@ -3,12 +3,13 @@ import { Router } from "express";
 import validateRequest from "../../middlewares/validateRequest";
 import { SaleController } from "./sale.controller";
 import { SaleValidation } from "./sale.validation";
+import auth from "../../middlewares/auth";
 
 const router = Router();
 
 router.post(
   "/",
-  // auth("admin", "manager", "employee"),
+  auth("admin", "manager", "employee"),
   validateRequest(SaleValidation.createSale),
   SaleController.createSale,
 );
@@ -19,4 +20,4 @@ router.get(
   SaleController.getAllSales,
 );
 
-export const SaleRoutes = router;
+export const saleRouter = router;
