@@ -17,7 +17,14 @@ const app: Application = express();
 // parsers
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: ["http://localhost:5173"] }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://inventory-sales-management-frontend.vercel.app",
+    ],
+  }),
+);
 
 // all application route here
 app.use("/api/v1", router);
