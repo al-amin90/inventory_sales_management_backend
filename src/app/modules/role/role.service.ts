@@ -1,10 +1,14 @@
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
-import type { IRole } from "./role.interface";
+import type { IRole, TModuleName } from "./role.interface";
 
 import { Role } from "./role.model";
 
 const createRole = async (payload: Partial<IRole>) => {
+  if (!payload.roleName) {
+    throw new AppError(400, "Role name is required");
+  }
+
   const exists = await Role.findOne({
     roleName: payload.roleName,
     isDeletedRole: false,
@@ -57,7 +61,7 @@ const updateRole = async (id: string, payload: Partial<IRole>) => {
 const updateModulePermission = async (
   id: string,
   payload: {
-    moduleName: string;
+    moduleName: TModuleName;
     access?: boolean;
     permissions?: Record<string, boolean>;
     subModules?: {
@@ -76,8 +80,7 @@ const updateModulePermission = async (
   );
 
   if (moduleIndex !== -1) {
-    // Module exists — update it
-    const existingModule = role.modules[moduleIndex];
+    const existingModule = role.modules[moduleIndex]!;
 
     if (access !== undefined) existingModule.access = access;
 
@@ -85,7 +88,7 @@ const updateModulePermission = async (
       existingModule.permissions = {
         ...existingModule.permissions,
         ...permissions,
-      } as any;
+      };
     }
 
     if (subModules && Array.isArray(subModules)) {
@@ -94,28 +97,29 @@ const updateModulePermission = async (
           (sm) => sm.name === updatedSub.name,
         );
         if (subIndex !== -1) {
-          // Merge permissions
-          const existing = existingModule.subModules[subIndex];
+          const existing = existingModule.subModules[subIndex]!;
           existingModule.subModules[subIndex] = {
             ...existing,
             access: updatedSub.access ?? existing.access,
             permissions: {
-              ...(existing.permissions || {}),
+              ...(existing.permissions ?? {}),
               ...updatedSub.permissions,
             },
           };
         } else {
-          // Add new submodule
-          existingModule.subModules.push(updatedSub as any);
+          existingModule.subModules.push({
+            name: updatedSub.name,
+            access: updatedSub.access ?? false,
+            permissions: updatedSub.permissions ?? {},
+          });
         }
       });
     }
 
     role.modules[moduleIndex] = existingModule;
   } else {
-    // Module doesn't exist — push new
     role.modules.push({
-      moduleName: moduleName as any,
+      moduleName,
       access: access ?? false,
       permissions: {
         add: false,
@@ -124,7 +128,12 @@ const updateModulePermission = async (
         view: true,
         ...(permissions || {}),
       },
-      subModules: (subModules as any) || [],
+      subModules:
+        (subModules?.map((sub) => ({
+          name: sub.name,
+          access: sub.access ?? false,
+          permissions: sub.permissions ?? {},
+        })) as any) || [],
     });
   }
 

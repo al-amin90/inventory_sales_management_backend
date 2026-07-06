@@ -78,7 +78,8 @@ const auth = (moduleName: string, action: string, subModuleName = null) => {
         );
       }
     } else {
-      if (!module.permissions[action] as keyof typeof module.permissions) {
+      const permissionKey = action as keyof typeof module.permissions;
+      if (!module.permissions[permissionKey]) {
         throw new AppError(
           status.FORBIDDEN,
           `Permission denied: Cannot ${action} in ${moduleName}`,

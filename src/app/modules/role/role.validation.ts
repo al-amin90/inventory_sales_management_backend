@@ -5,7 +5,7 @@ const MODULE_NAMES = ["Dashboard", "Role", "Product", "Sale"] as const;
 const subModuleSchema = z.object({
   name: z.string().min(1),
   access: z.boolean().default(false),
-  permissions: z.record(z.boolean()).default({}),
+  permissions: z.record(z.string(), z.boolean()).default({}),
 });
 
 const modulePermissionSchema = z.object({
